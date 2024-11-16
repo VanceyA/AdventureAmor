@@ -34,6 +34,9 @@ app.use("/api", require("./routes/userRoutes"));
 app.use("/api", require("./routes/challengeRoutes"));
 app.use("/api", require("./routes/completedChallengeRoutes"));
 
+app.get('*', (req, res) => {
+    res.sendFile(__dirname + '/public/index.html');
+});
 
 
 app.listen(port, () => {
