@@ -14,8 +14,16 @@ app.use(express.static("public"));
 app.use(session({
     secret: process.env.SESSION_SECRET,
     saveUninitialized: true,
-    resave: false
+    resave: false,
+    cookie: {
+        secure: true,
+        httpOnly: true,
+        sameSite: 'lax'
+      }
 }));
+
+
+app.set('trust proxy', 1); // Trust first proxy
 
 mongoose.connect(process.env.MONGO_URI);
 
