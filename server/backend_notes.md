@@ -17,8 +17,6 @@
     * isHome (bool)
     * ChallengeDate (Signify a daily mini-date challenge, allows to pull all objects)
 
-
-
 ### Completed Challenge
     * ChallengeId (id of challenge)
     * Picture (text of url)
@@ -26,4 +24,7 @@
     * Rating (number from 1-5)
     * ActualPrice (actual dollar amount spent)
 
-
+### PendingPartners
+    * Sender
+    * Reciever
+    * Approved
