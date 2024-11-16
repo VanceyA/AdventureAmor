@@ -31,15 +31,12 @@ async function handleLoginInfo(data){
     let req = new URLSearchParams();
     req.append("username", username);
     req.append("password", password);
-    const response = await fetch("/api/sessions", {
+    const response = await fetch("https://adventureamor.onrender.com/api/session", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: JSON.stringify({
-            username: username,
-            password: password,
-        }),
+        body: req
     });
     const result = await response.json();
     console.log(result);
@@ -49,18 +46,17 @@ async function handleSignupInfo(data){
     console.log("this is sign up data ", data.gmail, data.password);
     username = data.gmail;
     password = data.password;
-    const response = await fetch("/api/users", {
+    let req = new URLSearchParams();
+    req.append("username", username);
+    req.append("password", password);
+    const response = await fetch("https://adventureamor.onrender.com/api/users", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: JSON.stringify({
-            username: username,
-            password: password,
-        }),
+        body: req
     });
     const result = await response.json();
-    console.log(result);
     globalUser.user = result.user;
 }
 

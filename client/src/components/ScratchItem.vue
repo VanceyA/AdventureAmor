@@ -6,9 +6,11 @@
       </div>
   
       <div class="relative w-60 h-56 p-4 border rounded-lg shadow-lg bg-white">
+        <img src="/test_image.jpg" alt="Challenge Image" class="w-full h-full object-cover rounded-lg" />
+
         <canvas
           ref="scratchCanvas"
-          class="absolute inset-0 bg-gray-500 cursor-pointer z-10 rounded-lg"
+          class="absolute inset-0 cursor-pointer z-10 rounded-lg"
           :width="canvasWidth"
           :height="canvasHeight"
           @mousedown="startScratch"
@@ -18,15 +20,13 @@
           @touchmove="scratchEffect"
           @touchend="endScratch"
         ></canvas>
+
   
 
         <div v-if="!scratched" class="absolute inset-0 flex items-center justify-center z-20 text-white text-xl font-bold pointer-events-none">
             Scratch Me!
         </div>
 
-        <div v-if="scratched" class="absolute inset-0 flex flex-col items-center justify-center z-10 p-4 bg-white">
-          <img src="/test_image.jpg" alt="Challenge Image" class="w-full h-full object-cover rounded-lg" />
-        </div>
       </div>
   
       <h3 class="text-xl font-semibold text-center mt-2">{{ item.name }}</h3>
@@ -75,7 +75,6 @@ const scratchEffect = (event) => {
   if (!props.isModalOpen) return;
   if (!scratchCanvas.value) return;
   const ctx = scratchCanvas.value.getContext('2d');
-
   const rect = scratchCanvas.value.getBoundingClientRect();
 
   const { clientX, clientY } = event.touches ? event.touches[0] : event;
@@ -85,10 +84,11 @@ const scratchEffect = (event) => {
 
 
   ctx.lineTo(offsetX, offsetY); 
-  ctx.strokeStyle = 'rgba(255, 255, 255, 1)'; 
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0)';  
   ctx.lineWidth = 40; 
   ctx.lineJoin = 'round';
   ctx.lineCap = 'round';
+  ctx.globalCompositeOperation = 'destination-out';
   ctx.stroke();
 
   checkScratch(); 

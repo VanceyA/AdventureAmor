@@ -13,15 +13,20 @@
     </div>
   </div>
 
-  <div v-if="isModalOpen" 
+  <div v-if="isModalOpen"
       class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm"
       @click.self="closeModal">
-    <div class="relative p-4 bg-white rounded-lg w-96">
-      <ScratchItem 
-        :item="modalItem"
-        @close="closeModal" 
-        :isModalOpen="isModalOpen"
-      />
+    <div class="relative p-4 bg-white rounded-lg flex flex-col ml-100px mr-10">
+      <div class="flex flex-row gap-10">
+        <img src="/test_image.jpg" alt="" class="w-96 h-60 mt-4 object-fill"/>
+        <ScratchItem :item="modalItem" @close="closeModal" :isModalOpen="isModalOpen"/>
+      </div>
+      <div v-if="'note' in modalItem">
+          <p>{{ modalItem.note }}</p>
+      </div>
+      <div v-else>
+        <p>no desc</p>
+      </div>
     </div>
   </div>
 </template>
@@ -35,14 +40,16 @@ var fakeCompleted = ref([
     description: 'This is the description for item 1.',
     length: '5 min',
     price: 100,
-    challenge: 'heheh'
+    challenge: 'heheh',
+    note:"Amid the chaos of a bustling bookstore, two strangers reached for the same copy of a rare poetry book, their hands brushing. A shared smile turned into hours of conversation, sparking a connection neither had expected"
   },
   {
     name: 'Item 3',
     description: 'This is the description for item 3.',
     length: '2 hours',
     price: 300,
-    challenge: 'heheh'
+    challenge: 'heheh',
+    note: "Beneath a blanket of shimmering stars, he knelt on a quiet beach, the waves echoing his heartbeat. Her joyful  made the universe feel infinite, as if time stood still for their love."
   },
   {
     name: 'Item 6',

@@ -1,8 +1,14 @@
 
 <template>
-    <nav class="flex flex-row flex-start">
-        <img src="/adventureamor_logo.png" alt="Logo">
-        <h1>AdventureAmor</h1>
+    <nav class="flex flex-row justify-between">
+        <div class="flex flex-row flex-start items-center">
+            <img src="/adventureamor_logo.png" alt="Logo">
+            <h1>AdventureAmor</h1>
+        </div>
+        <div class="flex flex-row flex-end mr-24">
+            <button v-if="!user" class="btn btn-primary">Log In/Sign Up</button>
+            <button v-else class="btn btn-primary" @click="logout">Log Out</button>
+        </div>
     </nav>
 </template>
 
@@ -11,6 +17,14 @@ import { inject } from 'vue';
 
 const user = inject('globalUser');
 
+async function logout() {
+    try{
+        const user = await fetch("https://adventureamor.onrender.com/api/users");
+        console.log(user);
+    } catch (error) {
+        console.log(error);
+    }
+}
 </script>
 
 <style scoped>
