@@ -1,8 +1,9 @@
 <script setup>
+import ScratchCollection from '../components/ScratchCollection.vue'
 </script>
 
 <template>
   <main>
-    <p>hello</p>
+    <ScratchCollection/>
   </main>
 </template>
