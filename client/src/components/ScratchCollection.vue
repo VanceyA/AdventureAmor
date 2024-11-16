@@ -16,13 +16,13 @@
   <div v-if="isModalOpen"
       class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm"
       @click.self="closeModal">
-    <div class="relative p-4 bg-white rounded-lg flex flex-col ml-100px mr-10">
+    <div class="relative p-4 bg-white rounded-lg flex flex-col">
       <div class="flex flex-row gap-10">
         <img src="/test_image.jpg" alt="" class="w-96 h-60 mt-4 object-fill"/>
         <ScratchItem :item="modalItem" @close="closeModal" :isModalOpen="isModalOpen"/>
       </div>
-      <div v-if="'note' in modalItem">
-          <p>{{ modalItem.note }}</p>
+      <div class="w-25" v-if="'note' in modalItem">
+        <p class="w-1/2">{{ modalItem.note }}</p>
       </div>
       <div v-else>
         <p>no desc</p>
@@ -33,7 +33,7 @@
 <script setup>
 import ScratchItem from './ScratchItem.vue'
 import CompletedItem from './CompletedItem.vue'
-import {ref, computed } from 'vue'
+import {ref, computed, onMounted } from 'vue'
 var fakeCompleted = ref([
   {
     name: 'Item 1',
@@ -149,38 +149,42 @@ const uiList = computed(() => {
   console.log(list);
   return list; // Return the final list
 });
+onMounted(async () => {
+  const response = await fetch('')
+});
 
-async function getChallenges() {
-  try {
-    let response = await fetch("/api/challenges");
+// async function getChallenges() {
+//   try {
+//     let response = await fetch("/api/challenges");
     
-    // Check if the response is okay (status 200-299)
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    // Parse the JSON from the response
+//     // Check if the response is okay (status 200-299)
+//     if (!response.ok) {
+//         throw new Error(`HTTP error! status: ${response.status}`);
+//     }
+//     // Parse the JSON from the response
 
-    return await response.json()
-  } catch (error) {
-    console.error("Failed to fetch collection:", error);
-  }
-}
+//     return await response.json()
+//   } catch (error) {
+//     console.error("Failed to fetch collection:", error);
+//   }
+// }
 
-async function getCompletedChallenges() {
-  try {
-    let response = await fetch("/api/completedchallenges");
+// async function getCompletedChallenges() {
+//   try {
+//     let response = await fetch("/api/completedchallenges");
     
-    // Check if the response is okay (status 200-299)
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    // Parse the JSON from the response
+//     // Check if the response is okay (status 200-299)
+//     if (!response.ok) {
+//         throw new Error(`HTTP error! status: ${response.status}`);
+//     }
+//     // Parse the JSON from the response
 
-    return await response.json()
-  } catch (error) {
-    console.error("Failed to fetch collection:", error);
-  }
-}
+//     return await response.json()
+//   } catch (error) {
+//     console.error("Failed to fetch collection:", error);
+//   }
+// }
+
 
 function challengePressed(){
   console.log("challanged CLicked");

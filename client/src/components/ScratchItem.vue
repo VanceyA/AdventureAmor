@@ -33,7 +33,7 @@
     </div>
   </template>
   
-  <script setup>
+<script setup>
   import { ref, onMounted, computed } from 'vue';
   
   const props = defineProps({
@@ -71,61 +71,66 @@
     ctx.moveTo(offsetX, offsetY);
   };
 
-const scratchEffect = (event) => {
-  if (!props.isModalOpen) return;
-  if (!scratchCanvas.value) return;
-  const ctx = scratchCanvas.value.getContext('2d');
-  const rect = scratchCanvas.value.getBoundingClientRect();
+  const scratchEffect = (event) => {
+    if (!props.isModalOpen) return;
+    if (!scratchCanvas.value) return;
+    const ctx = scratchCanvas.value.getContext('2d');
+    const rect = scratchCanvas.value.getBoundingClientRect();
 
-  const { clientX, clientY } = event.touches ? event.touches[0] : event;
+    const { clientX, clientY } = event.touches ? event.touches[0] : event;
 
-  const offsetX = clientX - rect.left; 
-  const offsetY = clientY - rect.top;
-
-
-  ctx.lineTo(offsetX, offsetY); 
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0)';  
-  ctx.lineWidth = 40; 
-  ctx.lineJoin = 'round';
-  ctx.lineCap = 'round';
-  ctx.globalCompositeOperation = 'destination-out';
-  ctx.stroke();
-
-  checkScratch(); 
-};
-
-  
-const checkScratch = () => {
-  const canvas = scratchCanvas.value;
-  const ctx = canvas.getContext('2d');
-  const imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
-  const pixelData = imageData.data;
-  let scratchedArea = 0;
-
-  for (let i = 0; i < pixelData.length; i += 4) {
-    const r = pixelData[i];       
-    const g = pixelData[i + 1];  
-    const b = pixelData[i + 2];   
-
-    if (r > 128 && g > 128 && b > 128) {
-      scratchedArea++; 
-    }
-  }
+    const offsetX = clientX - rect.left; 
+    const offsetY = clientY - rect.top;
 
 
-  const totalPixels = canvasWidth * canvasHeight; 
-  const threshold = totalPixels * 0.8;
-  if (scratchedArea > threshold) {
-    scratched.value = true; 
-    console.log("Scratch complete!"); 
-  }
-};
+    ctx.lineTo(offsetX, offsetY); 
+    ctx.strokeStyle = 'rgba(255, 255, 255, 1)';  
+    ctx.lineWidth = 40; 
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.stroke();
 
-  
-  const endScratch = () => {
-    window.removeEventListener('mousemove', scratchEffect);
-    window.removeEventListener('touchmove', scratchEffect);
+    checkScratch(); 
   };
-  </script>
+
+  
+  const checkScratch = () => {
+    const canvas = scratchCanvas.value;
+    const ctx = canvas.getContext('2d');
+    const imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
+    const pixelData = imageData.data;
+    let scratchedArea = 0;
+
+    for (let i = 0; i < pixelData.length; i += 4) {
+      const alpha = pixelData[i + 3];  
+      if (alpha < 255) {
+        scratchedArea++; 
+      }
+    }
+
+
+    const totalPixels = canvasWidth * canvasHeight; 
+    const threshold = totalPixels * 0.8;
+    if (scratchedArea > threshold) {
+      scratched.value = true; 
+      console.log("Scratch complete!"); 
+      clearRemainingGray();
+    }
+  };
+
+  const clearRemainingGray = () => {
+    const canvas = scratchCanvas.value;
+    const ctx = canvas.getContext('2d');
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.fillStyle = 'rgba(255, 255, 255, 1)'; 
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);  
+  };
+
+  const endScratch = () => {
+      window.removeEventListener('mousemove', scratchEffect);
+      window.removeEventListener('touchmove', scratchEffect);
+  };
+</script>
   
 

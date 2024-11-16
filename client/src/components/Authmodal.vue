@@ -31,7 +31,7 @@ async function handleLoginInfo(data){
     let req = new URLSearchParams();
     req.append("username", username);
     req.append("password", password);
-    const response = await fetch("https://adventureamor.onrender.com/api/session", {
+    const response = await fetch("http://127.0.0.1:8080/api/session", {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",

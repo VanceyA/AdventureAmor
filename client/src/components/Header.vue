@@ -19,7 +19,7 @@ const user = inject('globalUser');
 
 async function logout() {
     try{
-        const user = await fetch("https://adventureamor.onrender.com/api/users");
+        const user = await fetch("http://127.0.0.1:8080/api/challenges");
         console.log(user);
     } catch (error) {
         console.log(error);
