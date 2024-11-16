@@ -1,4 +1,3 @@
-const { app } = require('firebase-admin');
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
