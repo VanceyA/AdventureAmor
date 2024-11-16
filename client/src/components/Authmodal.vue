@@ -15,18 +15,53 @@
 </template>
 
 <script setup>
-import Login from './Login.vue'
-import SignUp from './SignUp.vue'
-import {ref} from 'vue'
+import { ref } from 'vue';
+import Login from './Login.vue';
+import SignUp from './SignUp.vue';
+import { globalUser } from '@/data/globalUser';
+
 var registered = ref("signUp");
 var username;
 var password;
 
 async function handleLoginInfo(data){
     console.log("this is data: ", data.gmail ,data.password);
+    username = data.gmail;
+    password = data.password;
+    let req = new URLSearchParams();
+    req.append("username", username);
+    req.append("password", password);
+    const response = await fetch("/api/sessions", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password,
+        }),
+    });
+    const result = await response.json();
+    console.log(result);
+    globalUser.user = result.user;
 }
 async function handleSignupInfo(data){
     console.log("this is sign up data ", data.gmail, data.password);
+    username = data.gmail;
+    password = data.password;
+    const response = await fetch("/api/users", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password,
+        }),
+    });
+    const result = await response.json();
+    console.log(result);
+    globalUser.user = result.user;
 }
 
 const handleSwitchToSignUp = () => {

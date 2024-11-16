@@ -3,6 +3,7 @@ import './assets/style.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+import { globalUser } from './data/globalUser'
 
 // import { initializeApp } from "firebase/app";
 // import { getAuth } from "firebase/auth";
@@ -19,6 +20,8 @@ import router from './router'
 const app = createApp(App)
 // const app = initializeApp(firebaseConfig);
 // const auth = getAuth(app);
+
+app.provide('globalUser', globalUser)
 
 app.use(router)
 

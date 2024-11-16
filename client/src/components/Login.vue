@@ -2,7 +2,7 @@
     <div class="space-y-6">
         <h1>Login</h1>
       <div>
-        <label for="email" class="block text-sm/6 font-medium text-gray-900">Email</label>
+        <label for="email" class="block text-sm/6 font-medium text-gray-900">Username</label>
         <div class="mt-2">
           <input v-model="gmail" id="email" name="email" type="email" autocomplete="email" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#B0A091] sm:text-sm/6">
         </div>

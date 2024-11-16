@@ -21,4 +21,9 @@ export default defineConfig({
       usePolling: true,
     },
   },
+
+  build: {
+    outDir: '../server/public',
+    emptyOutDir: true,
+  },
 })

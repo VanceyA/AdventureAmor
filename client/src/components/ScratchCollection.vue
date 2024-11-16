@@ -3,12 +3,25 @@
     <div class="flex flex-row flex-wrap gap-5 mt-20 w-250">
       <template v-for="(item, index) in uiList" :key="index">
         <template v-if="'challenge' in item">
-          <CompletedItem v-on:click="challengePressed"  :item="item" />
+          <CompletedItem @ChallengeEmitted="handleChallengeData" :item="item" />
         </template>
         <template v-else>
-          <ScratchItem :item="item" />
+          <ScratchItem :item="item"
+          @click="openScratchModal(item)" />
         </template>
       </template>
+    </div>
+  </div>
+
+  <div v-if="isModalOpen" 
+      class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm"
+      @click.self="closeModal">
+    <div class="relative p-4 bg-white rounded-lg w-96">
+      <ScratchItem 
+        :item="modalItem"
+        @close="closeModal" 
+        :isModalOpen="isModalOpen"
+      />
     </div>
   </div>
 </template>
@@ -100,6 +113,21 @@ var fakeCollection = ref([{
     price: 250
   }
 ]);
+
+const isModalOpen = ref(false);
+const modalItem = ref(null);
+
+// Open the modal and pass the clicked item
+function openScratchModal(item) {
+  modalItem.value = item;
+  isModalOpen.value = true;
+}
+
+// Close the modal
+function closeModal() {
+  isModalOpen.value = false;
+}
+
 const uiList = computed(() => {
   const list = []; // Initialize an empty list
   for (const item of fakeCollection.value) {
@@ -147,31 +175,12 @@ async function getCompletedChallenges() {
   }
 }
 
-// var challenges = getChallenges(); 
-// var completedChallenges = getCompletedChallenges()
-
-// fakeCompleted fakeCollection
-// function filterChallenges() {
-//   console.log("fakecompleted", fakeCompleted)
-//   console.log("fakeCollection", fakeCollection)
-//   let uiList = []
-//   // if a challenge in challenges has the same title as a challenge in completed challenges, delete the challenge in challenges
-//   fakecollection.value = fakecollection.value.filter(
-//     (item) => !fakeCompleted.value.some((completed) => completed.name === item.name)
-//   );
-//   for (challenge in fakeCollection) {
-//     uiList.push(challenge)
-//   }
-//   for (challenge in fakeCompleted) {
-//     uiList.push(challenge)
-//   }
-// // Sort the array alphabetically by the 'name' field
-//   uiList.sort((a, b) => a.name.localeCompare(b.name));
-// }
-// filterChallenges()
 function challengePressed(){
   console.log("challanged CLicked");
 }
 
-
-</script>
+function handleChallengeData(data) {
+  console.log("Data received from Emit. Data:", data);
+  openScratchModal(data);
+}
+</script> 

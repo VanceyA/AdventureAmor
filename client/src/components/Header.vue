@@ -1,13 +1,15 @@
 
 <template>
-    <nav class="flex flex-row justify-center">
+    <nav class="flex flex-row flex-start">
         <img src="/adventureamor_logo.png" alt="Logo">
         <h1>AdventureAmor</h1>
     </nav>
 </template>
 
 <script setup>
+import { inject } from 'vue';
 
+const user = inject('globalUser');
 
 </script>
 

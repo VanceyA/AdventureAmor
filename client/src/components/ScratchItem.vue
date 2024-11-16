@@ -1,23 +1,3 @@
-<!-- <template>
-    <div class="flex flex-col">
-        <div class="flex flex-row justify-between">
-            <p>Price: ${{ item.price }}</p>
-            <p>Time: {{ item.length }}</p>
-        </div>
-        <div class="relative w-60 h-56 p-4 border rounded-lg shadow-lg bg-white"></div>
-        <h3 class="text-xl font-semibold text-center">{{ item.name }}</h3>
-    </div>
-  </template>
-  
-  <script setup>
-  import { defineProps } from 'vue';
-  
-  // Define the prop that will be passed from the parent
-  const props = defineProps({
-    item: Object
-  });
-  </script> -->
-
   <template>
     <div class="flex flex-col">
       <div class="flex flex-row justify-between">
@@ -54,10 +34,11 @@
   </template>
   
   <script setup>
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted, computed } from 'vue';
   
   const props = defineProps({
-    item: Object
+    item: Object,
+    isModalOpen: Boolean
   });
   
   const scratched = ref(false); 
@@ -73,25 +54,25 @@
   });
   
   const startScratch = (event) => {
-  event.preventDefault();
-  console.log('Scratch started');
+    if (!props.isModalOpen) return; 
+    event.preventDefault();
+    console.log('Scratch started');
 
-  const ctx = scratchCanvas.value.getContext('2d');
-  
-  // Get the canvas position relative to the viewport
-  const rect = scratchCanvas.value.getBoundingClientRect();
+    const ctx = scratchCanvas.value.getContext('2d');
+    
+    const rect = scratchCanvas.value.getBoundingClientRect();
 
-  const { clientX, clientY } = event.touches ? event.touches[0] : event;
+    const { clientX, clientY } = event.touches ? event.touches[0] : event;
 
-  // Adjust for the scroll position (consider page scroll)
-  const offsetX = clientX - rect.left + window.scrollX;
-  const offsetY = clientY - rect.top + window.scrollY;
+    const offsetX = clientX - rect.left + window.scrollX;
+    const offsetY = clientY - rect.top + window.scrollY;
 
-  ctx.beginPath();
-  ctx.moveTo(offsetX, offsetY);
+    ctx.beginPath();
+    ctx.moveTo(offsetX, offsetY);
   };
 
 const scratchEffect = (event) => {
+  if (!props.isModalOpen) return;
   if (!scratchCanvas.value) return;
   const ctx = scratchCanvas.value.getContext('2d');
 
@@ -99,10 +80,9 @@ const scratchEffect = (event) => {
 
   const { clientX, clientY } = event.touches ? event.touches[0] : event;
 
-  const offsetX = clientX - rect.left + window.scrollX;
-  const offsetY = clientY - rect.top + window.scrollY;
+  const offsetX = clientX - rect.left; 
+  const offsetY = clientY - rect.top;
 
-//   console.log(`Scratching at: X: ${offsetX}, Y: ${offsetY}`); 
 
   ctx.lineTo(offsetX, offsetY); 
   ctx.strokeStyle = 'rgba(255, 255, 255, 1)'; 
@@ -127,14 +107,14 @@ const checkScratch = () => {
     const g = pixelData[i + 1];  
     const b = pixelData[i + 2];   
 
-    if (Math.abs(r - g) < 10 && Math.abs(g - b) < 10 && Math.abs(r - b) < 10 && r < 100) {
-      scratchedArea++;
+    if (r > 128 && g > 128 && b > 128) {
+      scratchedArea++; 
     }
   }
 
-//   console.log("Scratched Area: ", scratchedArea);
 
-  const threshold = 1000; 
+  const totalPixels = canvasWidth * canvasHeight; 
+  const threshold = totalPixels * 0.8;
   if (scratchedArea > threshold) {
     scratched.value = true; 
     console.log("Scratch complete!"); 
