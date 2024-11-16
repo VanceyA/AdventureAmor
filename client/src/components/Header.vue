@@ -7,7 +7,7 @@
         </div>
         <div class="flex flex-row flex-end mr-24">
             <button v-if="!user" class="btn btn-primary">Log In/Sign Up</button>
-            <button v-else class="btn btn-primary" @click="logout">Log Out</button>
+            <button v-else class="btn btn-primary" @click="logout">Get user call</button>
         </div>
     </nav>
 </template>
@@ -19,7 +19,7 @@ const user = inject('globalUser');
 
 async function logout() {
     try{
-        const user = await fetch("http://127.0.0.1:8080/api/challenges");
+        const user = await fetch("http://127.0.0.1:8080/api/users");
         console.log(user);
     } catch (error) {
         console.log(error);

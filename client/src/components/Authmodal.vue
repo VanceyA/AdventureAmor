@@ -67,7 +67,4 @@ const handleSwitchToSignUp = () => {
 const handleSwitchToLogin = () => {
   registered.value = 'login';
 }
-
-
-
 </script>

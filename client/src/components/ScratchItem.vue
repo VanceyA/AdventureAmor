@@ -6,7 +6,9 @@
       </div>
   
       <div class="relative w-60 h-56 p-4 border rounded-lg shadow-lg bg-white">
-        <img src="/test_image.jpg" alt="Challenge Image" class="w-full h-full object-cover rounded-lg" />
+        <h3 class="text-xl font-semibold text-center mt-2">{{ item.name }}</h3>
+        <p>Price: ${{ item.price }}</p>
+        <p>Time: {{ item.length }}</p>
 
         <canvas
           ref="scratchCanvas"
@@ -24,12 +26,11 @@
   
 
         <div v-if="!scratched" class="absolute inset-0 flex items-center justify-center z-20 text-white text-xl font-bold pointer-events-none">
-            Scratch Me!
+          {{ props.isModalOpen ? 'Scratch Me!' : 'Click Me!' }}
         </div>
 
       </div>
   
-      <h3 class="text-xl font-semibold text-center mt-2">{{ item.name }}</h3>
     </div>
   </template>
   
