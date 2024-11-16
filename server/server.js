@@ -1,10 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
+// const cors = require('cors');
 const session = require('express-session');
 const admin = require("firebase-admin");
-const verifyFirebaseToken = require("./middleware/verifyFirebaseToken");
-
 
 require('dotenv').config();
 
@@ -15,7 +13,7 @@ admin.initializeApp({
 
 const app = express();
 
-app.use(cors());
+app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static("public"));
 app.use(session({
@@ -28,6 +26,10 @@ mongoose.connect(process.env.MONGO_URI);
 
 const port = process.env.PORT || 8080;
 
+
+app.use("/api", require("./routes/userRoutes"));
+app.use("/api", require("./routes/challengeRoutes"));
+app.use("/api", require("./routes/completedChallengeRoutes"));
 
 
 
