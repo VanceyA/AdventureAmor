@@ -15,11 +15,11 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     saveUninitialized: true,
     resave: false,
-    cookie: {
-        secure: true,
-        httpOnly: true,
-        sameSite: 'lax'
-      }
+    // cookie: {
+    //     secure: true,
+    //     httpOnly: true,
+    //     sameSite: 'lax'
+    //   }
 }));
 
 
