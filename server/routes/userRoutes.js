@@ -21,6 +21,9 @@ router.delete('/session', authorizeRequest, userAPI.logoutUser);
 router.post('/session', userAPI.loginUser);
 
 router.get('/pendingPartners', authorizeRequest, partnerAPI.getPendingPartners);
+router.get('/pendingRequests', authorizeRequest, partnerAPI.getPendingRequests);
+router.delete('/pendingRequests/:id', authorizeRequest, partnerAPI.cancelRequest);
+router.post('/requestPartner', authorizeRequest, partnerAPI.requestPartner);
 router.post('/acceptPartner/:id', authorizeRequest, partnerAPI.acceptPartner);
 router.delete('/rejectPartner/:id', authorizeRequest, partnerAPI.rejectPartner);
 router.delete('/partner/:id', authorizeRequest, partnerAPI.leavePartner);

@@ -1,20 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
-// const cors = require('cors');
+const cors = require('cors');
 const session = require('express-session');
-const admin = require("firebase-admin");
 
 require('dotenv').config();
-
-// Initialize Firebase Admin SDK
-admin.initializeApp({
-    credential: admin.credential.cert(require("./firebase-keys.json")),
-});
 
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
 
+app.use(cors());
 app.use(express.static("public"));
 app.use(session({
     secret: process.env.SESSION_SECRET,
